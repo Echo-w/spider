@@ -16,4 +16,15 @@ for a in all_a:
     img = requests.get(img_url, headers=headers)
     f = open(name + '.jpg', 'ab')
     f.write(img.content)
-    f.close()
+    f.close()    title = a.get_text()
+    href = a['href']
+    img_html=requests.get(href,headers= headers)
+    img_html_soup = BeautifulSoup(img_html.text,from_encoding='utf-8')
+    img_all = img_html_soup.find('div',class_='l_effect_img_mid').find_all('img')
+    for b in img_all:
+        tup=b['src']
+        img = requests.get(tup,headers = headers)
+        name = tup[-9:-4]
+        f = open(name+'.jpg','ab')
+        f.write(img.content)
+        f.close()
